@@ -1,0 +1,208 @@
+% !TEX program = xelatex
+% 模版作者： Milvoid，https://shuiyuan.sjtu.edu.cn/t/topic/471743/，https://github.com/Milvoid/CheatingSheetTemplate
+% Cheating Paper 作者：dcldyhb
+% Built with codex
+\RequirePackage{fix-cm}
+\documentclass[a4paper]{article}
+
+\usepackage{iftex}
+\ifXeTeX
+\else
+  \errmessage{CheatingSheet.tex must be compiled with XeLaTeX}
+\fi
+
+\usepackage[
+  a4paper,
+  left=0.05cm,
+  right=0.05cm,
+  top=0.05cm,
+  bottom=0.05cm,
+  noheadfoot
+]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue]{hyperref}
+\pdfstringdefDisableCommands{%
+  \def\quad{ }%
+}
+
+% Page and column specification.
+\newlength{\CheatColumnWidth}
+\newlength{\CheatColumnSep}
+\newlength{\CheatTextWidth}
+\setlength{\CheatColumnWidth}{5.07cm}
+\setlength{\CheatColumnSep}{0.2cm}
+\setlength{\CheatTextWidth}{\dimexpr 4\CheatColumnWidth + 3\CheatColumnSep\relax}
+\setlength{\textwidth}{\CheatTextWidth}
+\setlength{\columnsep}{\CheatColumnSep}
+\setlength{\columnseprule}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\partopsep}{0pt}
+\pagestyle{empty}
+
+% Fonts:
+% English: SF Compact Text. The bundled files in fonts/ are static Regular,
+% Bold, Italic, and BoldItalic instances generated from macOS SF Compact with
+% opsz=19. Loading /System/Library/Fonts/SFCompact.ttf directly in XeLaTeX uses
+% that variable font's default Black instance, which makes Regular text too bold.
+\defaultfontfeatures{Ligatures=TeX}
+\newcommand{\CheatFontPath}{fonts/}
+\IfFileExists{fonts/SFCompactText-Regular.ttf}{}
+  {\renewcommand{\CheatFontPath}{../CheatingSheetTemplate/fonts/}}
+\setmainfont{SFCompactText-Regular.ttf}[
+  Path=\CheatFontPath,
+  BoldFont=SFCompactText-Bold.ttf,
+  ItalicFont=SFCompactText-Italic.ttf,
+  BoldItalicFont=SFCompactText-BoldItalic.ttf
+]
+\setsansfont{SFCompactText-Regular.ttf}[
+  Path=\CheatFontPath,
+  BoldFont=SFCompactText-Bold.ttf,
+  ItalicFont=SFCompactText-Italic.ttf,
+  BoldItalicFont=SFCompactText-BoldItalic.ttf
+]
+\setmonofont{SFCompactText-Regular.ttf}[
+  Path=\CheatFontPath,
+  BoldFont=SFCompactText-Bold.ttf,
+  ItalicFont=SFCompactText-Italic.ttf,
+  BoldItalicFont=SFCompactText-BoldItalic.ttf
+]
+% Chinese: PingFang SC, i.e. 苹方-简.
+\setCJKmainfont{PingFangSC-Regular.ttf}[
+  Path=\CheatFontPath,
+  BoldFont=PingFangSC-SemiBold.ttf,
+  ItalicFont=PingFangSC-Regular.ttf
+]
+\setCJKsansfont{PingFangSC-Regular.ttf}[
+  Path=\CheatFontPath,
+  BoldFont=PingFangSC-SemiBold.ttf,
+  ItalicFont=PingFangSC-Regular.ttf
+]
+\setCJKmonofont{PingFangSC-Regular.ttf}[
+  Path=\CheatFontPath,
+  BoldFont=PingFangSC-SemiBold.ttf,
+  ItalicFont=PingFangSC-Regular.ttf
+]
+\newfontfamily\CheatLatinSemiBold{SFCompactText-SemiBold.ttf}[
+  Path=\CheatFontPath
+]
+\newfontfamily\CheatLatinSemiBlack{SFCompactText-SemiBlack.ttf}[
+  Path=\CheatFontPath
+]
+\newCJKfontfamily\CheatCJKSemiBold{PingFangSC-SemiBold.ttf}[
+  Path=\CheatFontPath
+]
+\newCJKfontfamily\CheatCJKSemiBlack{PingFangSC-SemiBlack.ttf}[
+  Path=\CheatFontPath
+]
+\xeCJKsetup{
+  CJKmath=true,
+  CheckSingle=true,
+  PunctStyle=kaiming
+}
+
+% Typography specification.
+\definecolor{CheatTitleRed}{HTML}{a61f38}
+\definecolor{CheatAccentBlue}{HTML}{0076BA}
+\definecolor{CheatDividerGray}{HTML}{808080}
+\makeatletter
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{5pt}{6pt}%
+  \abovedisplayskip 1pt plus 0.5pt minus 0.5pt%
+  \belowdisplayskip 1pt plus 0.5pt minus 0.5pt%
+  \abovedisplayshortskip 0.5pt plus 0.5pt%
+  \belowdisplayshortskip 0.5pt plus 0.5pt%
+}
+\makeatother
+\normalsize
+\DeclareMathSizes{5}{5}{4}{3}
+% Compact math spacing for 5 pt cheat-sheet formulas. TeX defaults
+% (3/4/5mu) look too loose at this size, especially around +, =, and <.
+\thinmuskip=1mu
+\medmuskip=1.4mu plus 0.3mu minus 0.5mu
+\thickmuskip=1.8mu plus 0.4mu minus 0.6mu
+
+\titleformat{\section}
+  {\color{CheatTitleRed}\fontsize{7pt}{7.5pt}\selectfont}
+  {}{0pt}{}
+\titleformat{\subsection}
+  {\color{CheatTitleRed}\fontsize{6pt}{6.5pt}\selectfont\CheatLatinSemiBold\CheatCJKSemiBold}
+  {}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2pt}{0.6pt}
+\titlespacing*{\subsection}{0pt}{0.9pt}{0.4pt}
+\setcounter{secnumdepth}{0}
+
+\setlist[itemize]{
+  leftmargin=0.85em,
+  label={-},
+  labelsep=0.25em,
+  itemsep=0pt,
+  topsep=0pt,
+  parsep=0pt,
+  partopsep=0pt
+}
+\setlist[enumerate]{
+  leftmargin=1.1em,
+  labelsep=0.25em,
+  itemsep=0pt,
+  topsep=0pt,
+  parsep=0pt,
+  partopsep=0pt
+}
+\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1.5pt}
+\allowdisplaybreaks
+\raggedright
+\emergencystretch=0.8em
+
+\newenvironment{cheatsheet}
+  {\begin{multicols*}{4}\raggedcolumns\normalsize}
+  {\end{multicols*}}
+
+\newcommand{\term}[1]{\textbf{#1}}
+\newcommand{\accenttext}[1]{{\color{CheatAccentBlue}#1}}
+\newcommand{\pointtitle}[1]{{\color{CheatAccentBlue}\CheatLatinSemiBlack\CheatCJKSemiBlack #1}}
+\newcommand{\pt}[1]{\pointtitle{#1}}
+\newcommand{\paragraphtitle}[1]{\pointtitle{#1}}
+\newcommand{\bullettitle}[1]{\pointtitle{#1}}
+\newcommand{\m}[1]{\(#1\)}
+\newcommand{\tightmath}[1]{\m{#1}}
+\newcommand{\divider}{%
+  \par\vspace{1pt}%
+  {\color{CheatDividerGray}\hrule height 0.5pt width \linewidth}%
+  \vspace{1pt}%
+}
+
+\newcommand{\tdo}[1]{{\color{CheatTitleRed}\CheatLatinSemiBlack\CheatCJKSemiBlack #1}}
+
+\begin{document}
+\begin{cheatsheet}
+  \input{contents/1绪论与基本概念.tex}
+  \input{contents/2热力学第一定律.tex}
+  \input{contents/3气体和蒸汽的性质.tex}
+  \input{contents/4理想气体混合物及湿空气.tex}
+  \input{contents/5气体和蒸汽的基本热力过程.tex}
+  \input{contents/6热力学第二定律.tex}
+  \input{contents/7气体与蒸汽的流动.tex}
+  \input{contents/8压气机的热力过程.tex}
+  \input{contents/9气体动力循环.tex}
+  \input{contents/10蒸汽动力装置循环.tex}
+  \input{contents/11制冷循环.tex}
+  %\input{contents/fucks.tex}
+\end{cheatsheet}
+\end{document}
